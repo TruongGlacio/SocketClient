@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:autoLink="web"
+        android:text="http://Aselab.edu.vn/"
+        android:textStyle="bold" />
+    <LinearLayout
+        android:layout_width="363dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+      >
+        <EditText
+            android:id="@+id/addressEditText"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:hint="Server ip address"
+            android:layout_marginLeft="5dp" />
+        <Button
+            android:id="@+id/connectButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Connect"
+            android:layout_gravity="center_horizontal" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="362dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+       >
+        <EditText
+            android:id="@+id/portEditText"
+            android:layout_width="248dp"
+            android:layout_height="wrap_content"
+            android:hint="Server port number" />
+        <Button
+            android:id="@+id/clearButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Clear" />
+
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/responseTextView"
+        android:layout_width="match_parent"
+        android:layout_height="128dp"
+        android:layout_weight="0.57"
+        android:text="SMS from ESP8266"
+        android:gravity="center" />
+
+    <LinearLayout
+        android:layout_width="367dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <EditText
+            android:id="@+id/EditText_sendata"
+            android:layout_width="267dp"
+            android:layout_height="wrap_content"
+            android:hint="Tpye to send to ESP8266" />
+        <Button
+            android:id="@+id/SendButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Send"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginRight="20dp" />
+
+    </LinearLayout>
+
+</LinearLayout>
