@@ -1,0 +1,79 @@
+#include"MouseController.h"
+#include <QPixmap>
+#include <QGuiApplication>
+#include <QScreen>
+#include <QDebug>
+#include<PeopleDetectManager.h>
+MouseController::MouseController(QObject *parent):QObject (parent)
+{
+    SetMouseSourse(ICON_HAND);
+}
+
+
+void MouseController::SetMouseSourse(QString iconName)
+{
+    QPixmap cursor_pixmap = QPixmap(iconName);
+    qcusor = QCursor(cursor_pixmap, 0, 0);
+}
+
+void MouseController::CheckLocation(QPoint locationScreen)
+{
+    // detect screen mouse focussing
+    QScreen *screen = QGuiApplication::screenAt(locationScreen);
+    QRect  screenGeometry = screen->geometry();
+    int x = screenGeometry.x();
+    int y = screenGeometry.y();
+    int height = screenGeometry.height();
+    int width = screenGeometry.width();
+    qDebug()<<"x="<<x<<"\n y="<<y<<"\n height="<<height<<"\n width="<<width<<endl;
+
+    QPoint qpointMouse;
+    qpointMouse = qcusor.pos();
+    // emit when detect mouse longpress to location on screen
+    emit MouseLongPress();
+    // emit when detect mouse press to left screen location on screen
+
+    if(qpointMouse.x() == screenGeometry.left())
+
+        emit MouseInLeftScreen();
+    // emit when detect mouse press to right screen location on screen
+    if(qpointMouse.x() == screenGeometry.right())
+        emit MouseInRightScreen();
+
+    // emit when detect mouse press to right screen location on screen
+    if(qpointMouse.y() == screenGeometry.top())
+        emit MouseInTopScreen();
+
+    // emit when detect mouse press to right screen location on screen
+    if(qpointMouse.y() == screenGeometry.bottom())
+        emit MouseInBottomScreen();
+
+}
+
+void MouseController::DataDetectHandle(VTIEnum::DetectResult result)
+{
+
+}
+
+void MouseController::LocaltionHandle(QPoint qpoint)
+{
+    SetMouseLocation(qpoint);
+}
+
+void MouseController::ErrorHandler(const QList<QSslError> &errors)
+{
+
+}
+
+void MouseController::SetLocationOffSet(QPoint qpointOffset, int scaleHeight, int scaleWidth)
+{
+    this->qpointOffset = qpointOffset;
+    this->scaleHeight = scaleHeight;
+    this->scaleWidth = scaleWidth;
+}
+
+void MouseController::SetMouseLocation(QPoint qpoint)
+{
+    qcusor.setPos(this->qpointOffset.x()+qpoint.x()*scaleWidth,this->qpointOffset.y()+qpoint.y()*scaleHeight);
+    CheckLocation(qpoint);
+}

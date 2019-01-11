@@ -1,0 +1,70 @@
+#ifndef WEBSOCKETCLIENT_H
+#define WEBSOCKETCLIENT_H
+#include <QObject>
+#include <QString>
+#include <QtCore>
+#include <QtWebSockets/QWebSocket>
+#include <QtNetwork/QSslError>
+#include<QJsonObject>
+#include<QJsonParseError>
+#include <QMutexLocker>
+#include <VTIUtility.h>
+#include<VTIEnum.h>
+
+#define EVENT "event"
+#define DATA "data"
+#define SOURCE "source"
+#define CLASS "class"
+#define SCORE "score"
+#define BOX "box"
+#define BOX_CENTRER "box_center"
+#define FACE "face"
+#define HAND "hand"
+#define DETECTED "detected"
+#define NO_DETECTED "no_detected"
+#define X 0
+#define Y 1
+#define CLIENT_CONNECTED "Client connected"
+#define SEND_DETECT_RESULT 0
+#define SEND_LOCATION 1
+
+
+
+class PeopleDetectManager :public QObject
+{
+    Q_OBJECT
+public:
+    explicit PeopleDetectManager(QObject *parent = nullptr);
+
+    void OpenConnection();
+    void SendMessage( QString message);
+    void SetUrl(QString url);
+
+
+signals:
+    void SendTextMessageChange( QString &message);
+    void SendLocationData(QPoint qpoint);
+    void SendPeopleDetect(VTIEnum::DetectResult result);
+    void CloseConnectionChange(QWebSocketProtocol::CloseCode closeCode = QWebSocketProtocol::CloseCodeNormal, const QString &reason = QString());
+    void SendErrorToControl(const QList<QSslError> &errors);
+public slots:
+    void onConnected();
+    void WebSocketDiconnect();
+    void OnDataChange(QString message);
+    void HandlingSocketError(const QList<QSslError> &errors);
+    void PrintData(QPoint dataPackage);
+    void Disconnected();
+
+private:
+    QJsonObject OnReciverData(QString data);
+    void DetectJsonData(QJsonObject  jsonObject);
+
+    QJsonObject jsonObject;
+    QWebSocket m_webSocket;
+    QUrl url;
+    QThread *backgroundThread;
+    QMutex mutex;
+
+};
+
+#endif // WEBSOCKETCLIENT_H

@@ -1,0 +1,43 @@
+#ifndef SCREENCONTROLLER_H
+#define SCREENCONTROLLER_H
+
+#define ICON_HAND "icon_hand.png"
+#define CIRCLE_BLUE "qrc:/icon_hand.png"
+#define RING_CIRCLE_BLUE "qrc:/Ring_Circle_blue.png"
+#define RING_CIRCLE_YELLOW "qrc:/Ring_Circle_yellow.png"
+#include <QObject>
+#include<Common/VTIEnum.h>
+#include <QtNetwork/QSslError>
+#include <QCursor>
+#include <Qt>
+class MouseController : public QObject
+{
+    Q_OBJECT
+public:
+    explicit MouseController(QObject *parent = nullptr);
+
+signals:
+    void MouseLongPress();
+    void MouseInLeftScreen();
+    void MouseInRightScreen();
+    void MouseInTopScreen();
+    void MouseInBottomScreen();
+public slots:
+    void SetMouseSourse(QString iconName);
+    void DataDetectHandle(VTIEnum::DetectResult result);
+    void LocaltionHandle(QPoint qpoint);
+    void ErrorHandler(const QList<QSslError> &errors);
+    void SetLocationOffSet(QPoint locationMouse);
+private:
+
+    void CheckLocation(QPoint locationMouse);
+    void SetMouseLocation(QPoint qpoint);
+    QPoint qpointOffset;
+    int scaleHeight;
+    int scaleWidth;
+    QCursor qcusor;
+
+};
+
+
+#endif // SCREENCONTROLLER_H
